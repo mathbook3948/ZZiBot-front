@@ -5,6 +5,7 @@ import UserContainer from "@/views/shared/layout/user-container";
 import {Toaster} from "sonner";
 import {Analytics} from "@vercel/analytics/next";
 import {SpeedInsights} from "@vercel/speed-insights/next";
+import {ThemeProvider} from "@/views/shared/layout/theme-provider";
 
 export const metadata: Metadata = {
     title: "치봇",
@@ -22,16 +23,33 @@ const RootLayout = ({
 
     return (
         <AuthProvider>
-            <html lang="ko">
-            <body style={{fontFamily: "Pretendard, sans-serif"}}>
-            <Toaster position={"top-right"}/>
-            <UserContainer>
-                {children}
-            </UserContainer>
-            <Analytics />
-            <SpeedInsights/>
-            </body>
-            </html>
+            <ThemeProvider>
+                <html lang="ko" suppressHydrationWarning>
+                <body style={{fontFamily: "Pretendard, sans-serif"}}>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                    (function() {
+                      try {
+                        var theme = localStorage.getItem('theme');
+                        var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        var mode = theme === 'dark' || (!theme && systemDark) ? 'dark' : 'light';
+                        document.documentElement.classList.remove('light', 'dark');
+                        document.documentElement.classList.add(mode);
+                      } catch(e){}
+                    })();
+            `
+                    }}
+                />
+                <Toaster position={"top-right"}/>
+                <UserContainer>
+                    {children}
+                </UserContainer>
+                <Analytics/>
+                <SpeedInsights/>
+                </body>
+                </html>
+            </ThemeProvider>
         </AuthProvider>
     );
 }

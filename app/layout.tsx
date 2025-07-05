@@ -3,6 +3,8 @@ import "./globals.css";
 import AuthProvider from "@/views/shared/layout/auth-provider";
 import UserContainer from "@/views/shared/layout/user-container";
 import {Toaster} from "sonner";
+import {Analytics} from "@vercel/analytics/next";
+import {SpeedInsights} from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
     title: "치봇",
@@ -26,6 +28,8 @@ const RootLayout = ({
             <UserContainer>
                 {children}
             </UserContainer>
+            <Analytics />
+            <SpeedInsights/>
             </body>
             </html>
         </AuthProvider>

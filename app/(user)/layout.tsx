@@ -12,9 +12,11 @@ const UserLayout = ({
     return (
         <SidebarProvider>
             <AppSidebar/>
-            <div>
-                <SidebarTrigger className="m-1"/>
-                {children}
+            <div className="flex flex-col flex-1">
+                <SidebarTrigger className="m-1 self-start" />
+                <div className="flex-1">
+                    {children}
+                </div>
             </div>
         </SidebarProvider>
     );

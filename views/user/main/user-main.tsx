@@ -2,8 +2,16 @@
 
 import {Button} from "@/components/ui/button";
 import {Card} from "@/components/ui/card";
+import {ChevronRight} from "lucide-react";
+
+const INSTALLATION_URL = "https://discord.com/oauth2/authorize?client_id=1389229095388446862"
 
 const UserMain = () => {
+
+    const handleClickInstallation = () => {
+        window.open(INSTALLATION_URL, "_blank")
+    }
+
     return (
         <div className="w-full h-full flex items-center justify-center">
             <div className="w-full max-w-5xl grid grid-cols-2 gap-8 mb-10">
@@ -18,7 +26,12 @@ const UserMain = () => {
                         실시간 스트리밍을 연결합니다.
                     </div>
                     <div className="mt-4">
-                        <Button>사용 시작하기</Button>
+                        <Button variant="default" onClick={handleClickInstallation} className="cursor-pointer">
+                            <div className="flex flex-row items-center gap-1">
+                                <ChevronRight />
+                                <span>사용 시작하기</span>
+                            </div>
+                        </Button>
                     </div>
                 </div>
 

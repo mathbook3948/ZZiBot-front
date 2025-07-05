@@ -14,21 +14,24 @@ import {
 } from "@/components/ui/sidebar"
 import {SquareTerminal} from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const AppSidebar = () => {
     return (
         <Sidebar className="border-sidebar-border">
             <SidebarHeader>
-                <div className="w-full flex flex-row items-center gap-2">
-                    <Image
-                        src="/logo.jpg"
-                        alt="zzibot-logo"
-                        width={30}
-                        height={30}
-                        className="rounded-md"
-                    />
-                    <span className="text-xl font-semibold leading-none">치봇</span>
-                </div>
+                <Link href="/">
+                    <div className="w-full flex flex-row items-center gap-2 p-2">
+                        <Image
+                            src="/logo.png"
+                            alt="zzibot-logo"
+                            width={30}
+                            height={30}
+                            className="rounded-md"
+                        />
+                        <span className="text-xl font-semibold leading-none">치봇</span>
+                    </div>
+                </Link>
             </SidebarHeader>
             <SidebarContent>
 

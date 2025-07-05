@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 
-const PUBLIC_PATHS = ['/login']
+const PUBLIC_PATHS = ['/login', '/']
 
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
 
     // 정적 파일, public 경로는 통과
-    const isStatic = pathname.match(/\.\w+$/)
+    const isStatic = pathname.match(/\.\w+$/) || pathname.startsWith('/_next/image')
     const isApi = pathname.startsWith('/api')
     const isAdminLogin = pathname.startsWith('/admin/login')
     const isPublic =  PUBLIC_PATHS.includes(pathname)

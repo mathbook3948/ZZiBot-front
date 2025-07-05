@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import AuthProvider from "@/views/shared/layout/AuthProvider";
+import AuthProvider from "@/views/shared/layout/auth-provider";
+import UserContainer from "@/views/shared/layout/user-container";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -8,15 +9,18 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({
-                                       children,
-                                   }: Readonly<{
+                        children,
+                    }: Readonly<{
     children: React.ReactNode;
 }>) => {
+
     return (
         <AuthProvider>
             <html lang="ko">
-            <body className="min-h-screen flex items-center justify-center font-" style={{fontFamily: "Pretendard, sans-serif"}}>
-            {children}
+            <body style={{fontFamily: "Pretendard, sans-serif"}}>
+            <UserContainer>
+                {children}
+            </UserContainer>
             </body>
             </html>
         </AuthProvider>

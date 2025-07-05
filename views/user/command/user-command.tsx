@@ -1,17 +1,8 @@
 'use client'
 
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs'
-
-interface CommandGroup {
-    name: string
-    commands: Command[]
-}
-
-interface Command {
-    command: string
-    description?: string
-    requiredAdmin: boolean
-}
+import {CommandGroup} from "@/types/command-interface";
+import UserCommandItem from "@/views/user/command/user-command-item";
 
 const commands: CommandGroup[] = [
     {
@@ -25,6 +16,7 @@ const commands: CommandGroup[] = [
             {
                 command: '/알림등록',
                 description: '치지직 라이브 알림을 받을 채널을 등록합니다.',
+                detailDescription: '치지직 채널 주소 또는 치지직 라이브 주소를 입력할 수 있습니다.',
                 requiredAdmin: true
             },
             {
@@ -79,23 +71,9 @@ const UserCommand = () => {
 const CommandList = ({commands}: { commands: CommandGroup[] }) => {
     return (
         <div className="space-y-6">
-            {commands.map((group, idx) =>
-                group.commands.length > 0 ? (
-                    <div key={idx} className="space-y-2">
-                        <h2 className="text-xl font-semibold border-b pb-1">{group.name}</h2>
-                        <ul className="space-y-1">
-                            {group.commands.map((cmd, i) => (
-                                <li key={i} className="bg-gray-50 border rounded px-4 py-2">
-                                    <p className="font-mono font-medium text-blue-600">{cmd.command}</p>
-                                    {cmd.description && (
-                                        <p className="text-sm text-gray-600">{cmd.description}</p>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ) : null
-            )}
+            {commands.map((command, index) => (
+                <UserCommandItem cmd={command} key={`user-command-item-${index}`}/>
+            ))}
         </div>
     )
 }

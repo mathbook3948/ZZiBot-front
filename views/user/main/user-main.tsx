@@ -3,10 +3,16 @@
 import {Button} from "@/components/ui/button";
 import {Card} from "@/components/ui/card";
 import {ChevronRight} from "lucide-react";
+import {formatNumber} from "@/utils/format-number";
 
 const INSTALLATION_URL = "https://discord.com/oauth2/authorize?client_id=1389229095388446862"
 
-const UserMain = () => {
+interface Props {
+    guildCount: number
+    connectedChannelCount: number
+}
+
+const UserMain = ({guildCount, connectedChannelCount}: Props) => {
 
     const handleClickInstallation = () => {
         window.open(INSTALLATION_URL, "_blank")
@@ -28,7 +34,7 @@ const UserMain = () => {
                     <div className="mt-4">
                         <Button variant="default" onClick={handleClickInstallation} className="cursor-pointer">
                             <div className="flex flex-row items-center gap-1">
-                                <ChevronRight />
+                                <ChevronRight/>
                                 <span>사용 시작하기</span>
                             </div>
                         </Button>
@@ -39,12 +45,12 @@ const UserMain = () => {
                 <div className="flex flex-col gap-2">
                     <Card className="p-4 gap-2">
                         <div className="text-sm">참여 중인 서버</div>
-                        <div className="text-2xl font-bold text-primary-foreground">17개</div>
+                        <div className="text-2xl font-bold text-primary-foreground">{formatNumber(guildCount)} 서버</div>
                     </Card>
 
                     <Card className="p-4 gap-2">
                         <div className="text-sm">연결된 치지직 채널 수</div>
-                        <div className="text-2xl font-bold text-primary-foreground">17개</div>
+                        <div className="text-2xl font-bold text-primary-foreground">{formatNumber(connectedChannelCount)} 채널</div>
                     </Card>
                 </div>
 

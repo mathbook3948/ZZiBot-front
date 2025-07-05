@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import "./globals.css";
 import AuthProvider from "@/views/shared/layout/auth-provider";
 import UserContainer from "@/views/shared/layout/user-container";
+import {Toaster} from "sonner";
 
 export const metadata: Metadata = {
     title: "치봇",
@@ -21,6 +22,7 @@ const RootLayout = ({
         <AuthProvider>
             <html lang="ko">
             <body style={{fontFamily: "Pretendard, sans-serif"}}>
+            <Toaster position={"top-right"}/>
             <UserContainer>
                 {children}
             </UserContainer>

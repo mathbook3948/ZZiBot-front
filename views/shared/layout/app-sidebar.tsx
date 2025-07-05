@@ -68,12 +68,6 @@ const AppSidebar = () => {
                                         명령어
                                     </a>
                                 </SidebarMenuButton>
-                                <SidebarMenuButton asChild>
-                                    <a href="/command">
-                                        <SquareTerminal/>
-                                        명령어2
-                                    </a>
-                                </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>

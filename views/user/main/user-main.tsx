@@ -26,7 +26,7 @@ const UserMain = ({ guildCount, connectedChannelCount }: Props) => {
                     <div className="flex flex-col justify-center md:pl-4" >
                         <div className="flex flex-wrap items-end gap-x-2 gap-y-1 text-center md:text-left justify-center md:justify-start">
                             <span className="text-4xl sm:text-5xl text-primary font-bold leading-none">치지직,</span>
-                            <span className="text-3xl sm:text-4xl text-foreground font-bold relative top-px">디스코드와 함께</span>
+                            <span className="text-3xl sm:text-4xl text-foreground font-bold relative top-px break-keep">디스코드와 함께</span>
                         </div>
 
                         <div className="text-base sm:text-md text-muted-foreground mt-2">

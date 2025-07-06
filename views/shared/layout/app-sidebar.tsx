@@ -12,10 +12,9 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import {ChevronUp, SquareTerminal, User2} from "lucide-react";
+import {SquareTerminal} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import SidebarFooterDropdown from "@/views/shared/layout/sidebar-footer-dropdown";
 
 const AppSidebar = () => {

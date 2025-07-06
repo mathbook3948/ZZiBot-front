@@ -8,19 +8,19 @@ import {SidebarMenuButton} from "@/components/ui/sidebar";
 import {ChevronUp, LogOut, Moon, Sun, User2} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {toast} from "sonner";
-import {getTokens} from "@/actions/common/get-tokens";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useTheme} from "@/views/shared/layout/theme-provider";
+import {useUserAuth} from "@/views/shared/layout/user-auth-context";
 
 const SidebarFooterDropdown = () => {
     const router = useRouter();
     const {theme, setTheme} = useTheme()
+    const {isLoggedIn, setIsLoggedIn} = useUserAuth()
 
     const {data, isLoading} = useQuery({
         queryKey: ['user-detail'],
         queryFn: async () => {
-            const tokens = await getTokens();
-            if (!tokens) return null;
+            if (!isLoggedIn) return null;
 
             const res = await getUserDetail();
             if (!res.success) {
@@ -34,11 +34,12 @@ const SidebarFooterDropdown = () => {
     const handleLogout = async () => {
         await fetch('/api/auth/user/logout', {method: 'GET'});
         toast.success("로그아웃에 성공했습니다.");
+        setIsLoggedIn(false)
         router.push('/');
     };
 
     const handleLogin = async () => {
-        if (!isLoading && !data) router.push('/login');
+        if (!isLoggedIn) router.push('/login');
     }
 
     const handleSetTheme = () => {

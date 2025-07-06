@@ -1,7 +1,7 @@
 import {Suspense} from "react";
 import AdminLogin from "@/views/auth/admin/admin-login";
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
     return (
         <Suspense>
             <AdminLogin/>
@@ -9,4 +9,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default AdminLoginPage

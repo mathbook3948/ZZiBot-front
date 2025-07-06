@@ -2,7 +2,6 @@
 
 import {useState} from 'react'
 import {Command, CommandGroup} from '@/types/command-interface'
-import {Button} from "@/components/ui/button";
 
 const UserCommandItem = ({cmd}: { cmd: CommandGroup }) => {
     return (

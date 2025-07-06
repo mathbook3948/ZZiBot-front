@@ -16,21 +16,24 @@ export async function middleware(request: NextRequest) {
     }
 
     // 권한 처리===================================================================
-    const token =
-        request.cookies.get('__Secure-authjs.session-token')?.value ??
-        request.cookies.get('next-auth.session-token')?.value
+    const userToken = request.cookies.get('user_access_token')?.value
+    const adminToken = request.cookies.get('admin_access_token')?.value
 
-    if (!token) {
-        if (pathname.startsWith('/admin')) {
+    if (pathname.startsWith('/admin')) {
+        if(!adminToken) {
             return NextResponse.redirect(new URL('/admin/login', request.url))
-        } else {
+        }
+    } else {
+        if(!userToken) {
             return NextResponse.redirect(new URL('/login', request.url))
         }
     }
 
     try {
+        const token = pathname.startsWith('/admin') ? adminToken! : userToken!
+
         // JWT 검증
-        const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET)
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET)
         const {payload} = await jwtVerify(token, secret)
         const roles = payload.roles as string[]
 

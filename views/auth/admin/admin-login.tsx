@@ -7,7 +7,9 @@ import {z} from 'zod'
 import {Form, FormControl, FormField, FormItem, FormMessage} from '@/components/ui/form'
 import {Input} from '@/components/ui/input'
 import {Button} from '@/components/ui/button'
-import {signIn} from "next-auth/react";
+import {adminLogin} from "@/actions/auth/admin-login";
+import handleError from "@/utils/handle-error";
+import {cookies} from "next/headers";
 
 type LoginSchemaType = z.infer<typeof LoginSchema>
 
@@ -21,15 +23,14 @@ const AdminLogin = () => {
     })
 
     const onSubmit = async (data: LoginSchemaType) => {
-        const res = await signIn('credentials', {
-            username: data.username,
-            password: data.password,
-            redirect: false,
-        })
+        const res = await adminLogin(data)
 
-        if(res?.error) {
-            console.log(res.error)
+        if (!res.success) {
+            handleError(res.data)
+            return;
         }
+
+        console.log("res.data", res.data)
     }
 
     return (

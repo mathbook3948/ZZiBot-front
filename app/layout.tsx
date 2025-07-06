@@ -1,6 +1,5 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import AuthProvider from "@/views/shared/layout/auth-provider";
 import UserContainer from "@/views/shared/layout/user-container";
 import {Toaster} from "sonner";
 import {Analytics} from "@vercel/analytics/next";
@@ -22,13 +21,12 @@ const RootLayout = ({
 }>) => {
 
     return (
-        <AuthProvider>
-            <ThemeProvider>
-                <html lang="ko" suppressHydrationWarning>
-                <body style={{fontFamily: "Pretendard, sans-serif"}}>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `
+        <ThemeProvider>
+            <html lang="ko" suppressHydrationWarning>
+            <body style={{fontFamily: "Pretendard, sans-serif"}}>
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
                     (function() {
                       try {
                         var theme = localStorage.getItem('theme');
@@ -39,18 +37,17 @@ const RootLayout = ({
                       } catch(e){}
                     })();
             `
-                    }}
-                />
-                <Toaster position={"top-right"}/>
-                <UserContainer>
-                    {children}
-                </UserContainer>
-                <Analytics/>
-                <SpeedInsights/>
-                </body>
-                </html>
-            </ThemeProvider>
-        </AuthProvider>
+                }}
+            />
+            <Toaster position={"top-center"}/>
+            <UserContainer>
+                {children}
+            </UserContainer>
+            <Analytics/>
+            <SpeedInsights/>
+            </body>
+            </html>
+        </ThemeProvider>
     );
 }
 

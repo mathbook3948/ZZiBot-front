@@ -15,6 +15,8 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
     }
 
+    console.log("권한처리 시작 =================================")
+
     // 권한 처리===================================================================
     const userToken = request.cookies.get('user_access_token')?.value
     const adminToken = request.cookies.get('admin_access_token')?.value

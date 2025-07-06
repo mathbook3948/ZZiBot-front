@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+import {NextResponse} from 'next/server'
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     const res = NextResponse.redirect(`${process.env.NEXT_PUBLIC_ZZIBOT_URL}`)
 
     const isProd = process.env.NODE_ENV === 'production'

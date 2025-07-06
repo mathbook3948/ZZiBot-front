@@ -10,6 +10,4 @@ export const LoginSchema = z.object({
         .min(1, { message: '비밀번호를 입력하세요.' }),
 })
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-export const LoginSchemaType = z.infer<typeof LoginSchema>
+export type LoginSchemaType = z.infer<typeof LoginSchema>

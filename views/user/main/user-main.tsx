@@ -23,20 +23,23 @@ const UserMain = ({ guildCount, connectedChannelCount }: Props) => {
 
                 {/* 왼쪽: 제목 + 설명 + 버튼 */}
                 <div className="flex flex-col justify-center text-center md:text-left">
-                    <div className="flex flex-col md:flex-row items-center md:items-end md:gap-2">
-                        <span className="text-4xl sm:text-5xl text-primary font-bold">치지직,</span>
-                        <span className="text-3xl sm:text-4xl text-foreground font-bold">디스코드와 함께</span>
-                    </div>
-                    <div className="text-base sm:text-md text-muted-foreground mt-2">
-                        실시간 스트리밍을 연결합니다.
-                    </div>
-                    <div className="mt-4 flex justify-center md:justify-start">
-                        <Button variant="default" onClick={handleClickInstallation}>
-                            <div className="flex flex-row items-center gap-1">
-                                <ChevronRight />
-                                <span>사용 시작하기</span>
-                            </div>
-                        </Button>
+                    <div className="flex flex-col justify-center md:pl-4" >
+                        <div className="flex flex-wrap items-end gap-x-2 gap-y-1 text-center md:text-left justify-center md:justify-start">
+                            <span className="text-4xl sm:text-5xl text-primary font-bold leading-none">치지직,</span>
+                            <span className="text-3xl sm:text-4xl text-foreground font-bold relative top-px">디스코드와 함께</span>
+                        </div>
+
+                        <div className="text-base sm:text-md text-muted-foreground mt-2">
+                            실시간 스트리밍을 연결합니다.
+                        </div>
+                        <div className="mt-4 flex justify-center md:justify-start">
+                            <Button variant="default" onClick={handleClickInstallation}>
+                                <div className="flex flex-row items-center gap-1">
+                                    <ChevronRight />
+                                    <span>사용 시작하기</span>
+                                </div>
+                            </Button>
+                        </div>
                     </div>
                 </div>
 

@@ -164,7 +164,7 @@
     --background: oklch(0.14 0.01 151.2);            /* 어두운 녹청 계열 배경 */
     --foreground: oklch(0.96 0.01 151.2);            /* 기본 텍스트 */
 
-    --card: oklch(0.16 0.01 151.2);
+    --card: oklch(0.16 0 0);
     --card-foreground: oklch(0.96 0.01 151.2);
     --popover: oklch(0.16 0.01 151.2);
     --popover-foreground: oklch(0.96 0.01 151.2);

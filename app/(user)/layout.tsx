@@ -24,7 +24,7 @@ const userSidebarList: AppSidebarGroupProps[] = [
             {
                 name: "설정",
                 icon: <Settings />,
-                href: "/dashboard"
+                href: "/settings"
             }
         ]
     },

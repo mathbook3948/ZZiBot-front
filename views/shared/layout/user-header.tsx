@@ -24,7 +24,7 @@ const UserHeader = () => {
         <header className="flex flex-row items-center justify-between w-full">
             <SidebarTrigger className="m-1 self-start"/>
             <div>
-                {!!isLoggedIn && (
+                {typeof isLoggedIn !== "undefined" && (
                     <Button variant="ghost" className="cursor-pointer mr-1" onClick={isLoggedIn ? handleLogout : handleLogin}>
                         {isLoggedIn ? <LogOut/> : <LogIn/>}
                         {isLoggedIn ? "로그아웃" : "로그인"}

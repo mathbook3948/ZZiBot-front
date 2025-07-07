@@ -22,10 +22,8 @@ export const getUserGuildList = async (): ActionReturnProps<DiscordGuildProps[]>
             Authorization: `Bearer ${user.accessToken}`
         },
         cache: 'force-cache',
-        next: { revalidate: 600 }
+        next: {revalidate: 60}
     })
-
-    console.log("res", res)
 
     if (res.status === 401) {
         const refreshRes = await handleRefreshToken(user.refreshToken)
@@ -41,11 +39,10 @@ export const getUserGuildList = async (): ActionReturnProps<DiscordGuildProps[]>
                 Authorization: `Bearer ${refreshRes.data.content!.accessToken}`
             },
             cache: 'force-cache',
-            next: { revalidate: 600 }
+            next: {revalidate: 60}
         })
     }
 
-    console.log('getUserGuildList', res.status)
 
     const data = await res.json();
 

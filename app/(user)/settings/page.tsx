@@ -1,5 +1,5 @@
 import {getUserGuildList} from "@/actions/user/get-user-guild-list";
-import UserDashboard from "@/views/user/dashboard/user-dashboard";
+import UserDashboard from "@/views/user/settings/user-dashboard";
 
 const UserDashboardPage = async () => {
 

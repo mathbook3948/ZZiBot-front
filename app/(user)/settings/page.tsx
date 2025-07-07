@@ -1,12 +1,12 @@
 import {getUserGuildList} from "@/actions/user/get-user-guild-list";
-import UserDashboard from "@/views/user/settings/user-dashboard";
+import UserSettings from "@/views/user/settings/user-settings";
 
 const UserDashboardPage = async () => {
 
     const res = await getUserGuildList()
 
     return (
-        <UserDashboard content={res.data}/>
+        <UserSettings content={res.data}/>
     )
 }
 

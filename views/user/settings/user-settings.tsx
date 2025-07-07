@@ -1,25 +1,33 @@
 'use client'
 
 import {ResponseProps} from "@/types/response-interface";
-import {DiscordGuildProps} from "@/types/dashboard-interface";
+import {DiscordGuildProps} from "@/types/settings-interface";
 import {useEffect, useMemo, useState} from "react";
 import handleError from "@/utils/handle-error";
 import {useUserAuth} from "@/views/shared/layout/user-auth-context";
 import {Card} from "@/components/ui/card";
 import {ImageOff} from "lucide-react";
 import {Input} from "@/components/ui/input";
+import {useRouter} from "next/navigation";
 
 interface Props {
     content: ResponseProps<DiscordGuildProps[]>
 }
 
-const UserDashboard = ({content}: Props) => {
+const UserSettings = ({content}: Props) => {
     const {discordUser} = useUserAuth()
     const [search, setSearch] = useState('')
+    const router = useRouter()
+
+    console.log("content", content)
 
     useEffect(() => {
         if (!content.result) handleError(content)
     }, [content]);
+
+    const handleClickGuild = (guild: DiscordGuildProps) => {
+        router.push(`/settings/${guild.id}`)
+    }
 
     const filtered = useMemo(() => {
         if (!content.content) return [];
@@ -47,7 +55,7 @@ const UserDashboard = ({content}: Props) => {
                     </div>
                 )}
                 {filtered.map((guild, index) => (
-                    <Card key={`user-dashboard-card-${index}`} className="p-6">
+                    <Card key={`user-dashboard-card-${index}`} className="p-6" onClick={() => handleClickGuild(guild)}>
                         <div className="flex flex-row items-center justify-between">
                             <div className="text-3xl font-semibold">
                                 {guild.name}
@@ -76,4 +84,4 @@ const UserDashboard = ({content}: Props) => {
     )
 }
 
-export default UserDashboard
+export default UserSettings

@@ -2,7 +2,7 @@
 
 import {ResponseProps} from "@/types/response-interface";
 import {DiscordGuildProps} from "@/types/dashboard-interface";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import handleError from "@/utils/handle-error";
 import {useUserAuth} from "@/views/shared/layout/user-auth-context";
 import {Card} from "@/components/ui/card";
@@ -19,7 +19,14 @@ const UserDashboard = ({content}: Props) => {
 
     useEffect(() => {
         if (!content.result) handleError(content)
-    }, []);
+    }, [content]);
+
+    const filtered = useMemo(() => {
+        if (!content.content) return [];
+        return content.content.filter((guild) =>
+            guild.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }, [search, content.content]);
 
     return (
         <div className="w-full max-w-3xl mx-auto p-6 flex flex-col gap-4">
@@ -32,9 +39,14 @@ const UserDashboard = ({content}: Props) => {
 
             <div className="flex flex-col gap-4">
                 <div className="w-[200px]">
-                    <Input/>
+                    <Input onChange={e => setSearch(e.target.value)} placeholder="서버명 검색"/>
                 </div>
-                {content.content?.map((guild, index) => (
+                {filtered.length === 0 && (
+                    <div className="text-muted-foreground text-center py-8">
+                        검색된 서버가 없습니다.
+                    </div>
+                )}
+                {filtered.map((guild, index) => (
                     <Card key={`user-dashboard-card-${index}`} className="p-6">
                         <div className="flex flex-row items-center justify-between">
                             <div className="text-3xl font-semibold">

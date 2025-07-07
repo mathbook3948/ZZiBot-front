@@ -22,7 +22,7 @@ const userSidebarList: AppSidebarGroupProps[] = [
         name: "관리",
         children: [
             {
-                name: "설정",
+                name: "치봇 설정",
                 icon: <Settings />,
                 href: "/settings"
             }

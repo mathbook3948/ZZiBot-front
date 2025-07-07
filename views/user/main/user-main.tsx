@@ -1,9 +1,13 @@
 'use client'
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ChevronRight } from "lucide-react";
-import { formatNumber } from "@/utils/format-number";
+import {Button} from "@/components/ui/button";
+import {Card} from "@/components/ui/card";
+import {ChevronRight} from "lucide-react";
+import {formatNumber} from "@/utils/format-number";
+import {useError} from "@/hooks/use-error";
+import {useEffect} from "react";
+import {toast} from "sonner";
+import {useRouter} from "next/navigation";
 
 const INSTALLATION_URL = "https://discord.com/oauth2/authorize?client_id=1389229095388446862"
 
@@ -12,7 +16,17 @@ interface Props {
     connectedChannelCount: number
 }
 
-const UserMain = ({ guildCount, connectedChannelCount }: Props) => {
+const UserMain = ({guildCount, connectedChannelCount}: Props) => {
+    const {error} = useError()
+    const router = useRouter()
+
+    useEffect(() => {
+        if(error && error !== "") {
+            toast.error(error)
+            router.push('/')
+        }
+    }, [error]);
+
     const handleClickInstallation = () => {
         window.open(INSTALLATION_URL, "_blank")
     }
@@ -23,8 +37,9 @@ const UserMain = ({ guildCount, connectedChannelCount }: Props) => {
 
                 {/* 왼쪽: 제목 + 설명 + 버튼 */}
                 <div className="flex flex-col justify-center text-center md:text-left">
-                    <div className="flex flex-col justify-center md:pl-4" >
-                        <div className="flex flex-wrap items-end gap-x-2 gap-y-1 text-center md:text-left justify-center md:justify-start">
+                    <div className="flex flex-col justify-center md:pl-4">
+                        <div
+                            className="flex flex-wrap items-end gap-x-2 gap-y-1 text-center md:text-left justify-center md:justify-start">
                             <span className="text-4xl sm:text-5xl text-primary font-bold leading-none">치지직,</span>
                             <span className="text-3xl sm:text-4xl text-foreground font-bold relative top-px break-keep">디스코드와 함께</span>
                         </div>
@@ -35,7 +50,7 @@ const UserMain = ({ guildCount, connectedChannelCount }: Props) => {
                         <div className="mt-4 flex justify-center md:justify-start">
                             <Button variant="default" onClick={handleClickInstallation}>
                                 <div className="flex flex-row items-center gap-1">
-                                    <ChevronRight />
+                                    <ChevronRight/>
                                     <span>사용 시작하기</span>
                                 </div>
                             </Button>

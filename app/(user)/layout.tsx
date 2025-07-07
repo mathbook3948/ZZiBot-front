@@ -5,26 +5,26 @@ import AppSidebar from "@/views/shared/layout/app-sidebar";
 import {UserAuthProvider} from "@/views/shared/layout/user-auth-context";
 import UserHeader from "@/views/shared/layout/user-header";
 import {AppSidebarGroupProps} from "@/types/app-interface";
-import {ChartNoAxesCombined, SquareTerminal} from "lucide-react";
+import {ChartNoAxesCombined, Settings, SquareTerminal} from "lucide-react";
 
 const userSidebarList: AppSidebarGroupProps[] = [
-    {
-        name: "관리",
-        children: [
-            {
-                name: "대시보드",
-                icon: <SquareTerminal/>,
-                href: "/dashboard"
-            }
-        ]
-    },
     {
         name: "명령어",
         children: [
             {
-                name: "명령어",
+                name: "명령어 목록",
                 icon: <SquareTerminal/>,
                 href: "/command"
+            }
+        ]
+    },
+    {
+        name: "관리",
+        children: [
+            {
+                name: "설정",
+                icon: <Settings />,
+                href: "/dashboard"
             }
         ]
     },

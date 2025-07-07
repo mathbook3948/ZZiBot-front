@@ -11,13 +11,14 @@ import {toast} from "sonner";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useTheme} from "@/views/shared/layout/theme-provider";
 import {useUserAuth} from "@/views/shared/layout/user-auth-context";
+import {useEffect} from "react";
 
 const SidebarFooterDropdown = () => {
     const router = useRouter();
     const {theme, setTheme} = useTheme()
     const {isLoggedIn, setIsLoggedIn} = useUserAuth()
 
-    const {data, isLoading} = useQuery({
+    const {data, isLoading, refetch} = useQuery({
         queryKey: ['user-detail'],
         queryFn: async () => {
             if (!isLoggedIn) return null;
@@ -30,6 +31,12 @@ const SidebarFooterDropdown = () => {
             return res.data.content!;
         }
     });
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            refetch();
+        }
+    }, [isLoggedIn]);
 
     const handleLogout = async () => {
         await fetch('/api/auth/user/logout', {method: 'GET'});
@@ -50,26 +57,34 @@ const SidebarFooterDropdown = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <SidebarMenuButton onClick={handleLogin} className="cursor-pointer">
-                    {isLoading ? (
+                    {!!isLoggedIn && (
                         <>
-                            <Skeleton className="w-6 h-6 rounded-full mr-2"/>
-                            <Skeleton className="h-4 w-20"/>
-                        </>
-                    ) : (
-                        <>
-                            {data?.discord_user_avatar ? (
-                                <img
-                                    src={`https://cdn.discordapp.com/avatars/${data.discord_user_id}/${data.discord_user_avatar}.${data.discord_user_avatar.startsWith('a_') ? 'gif' : 'png'}?size=40`}
-                                    alt="avatar"
-                                    className="w-6 h-6 rounded-full mr-2"
-                                />
+                            {isLoggedIn ? (
+                                isLoading || !data ? (
+                                    <>
+                                        <Skeleton className="w-6 h-6 rounded-full mr-2" />
+                                        <Skeleton className="h-4 w-20" />
+                                    </>
+                                ) : (
+                                    <>
+                                        {data.discord_user_avatar ? (
+                                            <img
+                                                src={`https://cdn.discordapp.com/avatars/${data.discord_user_id}/${data.discord_user_avatar}.${data.discord_user_avatar.startsWith('a_') ? 'gif' : 'png'}?size=40`}
+                                                alt="avatar"
+                                                className="w-6 h-6 rounded-full mr-2"
+                                            />
+                                        ) : (
+                                            <User2 className="w-6 h-6 mr-2" />
+                                        )}
+                                        {data.discord_user_global_name}
+                                    </>
+                                )
                             ) : (
-                                <User2 className="w-6 h-6 mr-2"/>
+                                <>로그인</>
                             )}
-                            {data?.discord_user_global_name ?? '로그인'}
                         </>
                     )}
-                    {!isLoading && data && <ChevronUp className="ml-auto"/>}
+                    {!isLoading && data && <ChevronUp className="ml-auto" />}
                 </SidebarMenuButton>
             </DropdownMenuTrigger>
             {data && (
@@ -83,19 +98,19 @@ const SidebarFooterDropdown = () => {
                         <span>Account</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleSetTheme}>
-                        {theme === "dark" ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
+                        {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                         <span className="ml-2">
-                            {theme === "dark" ? "라이트 모드" : "다크 모드"}
-                        </span>
+                        {theme === "dark" ? "라이트 모드" : "다크 모드"}
+                    </span>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleLogout}>
-                        <LogOut/>
+                        <LogOut />
                         <span className="ml-2">로그아웃</span>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             )}
         </DropdownMenu>
     );
-};
+}
 
 export default SidebarFooterDropdown;

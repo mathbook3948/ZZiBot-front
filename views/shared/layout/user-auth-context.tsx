@@ -4,21 +4,22 @@ import {createContext, useContext, useEffect, useState} from 'react'
 import {getTokens} from "@/actions/common/get-tokens";
 
 interface UserAuthContextType {
-    isLoggedIn: boolean
+    isLoggedIn?: boolean
     setIsLoggedIn: (value: boolean) => void
 }
 
 const UserAuthContext = createContext<UserAuthContextType | undefined>(undefined)
 
+const checkLogin = async (): Promise<boolean> => {
+    const token = await getTokens();
+    return !!token;
+};
+
 export const UserAuthProvider = ({children}: { children: React.ReactNode }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>()
 
     useEffect(() => {
-        const checkLogin = async () => {
-            const tokens = await getTokens();
-            setIsLoggedIn(!!tokens)
-        }
-        checkLogin()
+        checkLogin().then(loginState => setIsLoggedIn(loginState))
     }, []);
 
     return (

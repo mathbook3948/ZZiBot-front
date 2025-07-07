@@ -23,10 +23,14 @@ const UserHeader = () => {
     return (
         <header className="flex flex-row items-center justify-between w-full">
             <SidebarTrigger className="m-1 self-start"/>
-            <Button variant="ghost" className="cursor-pointer mr-1" onClick={isLoggedIn ? handleLogout : handleLogin}>
-                {isLoggedIn ? <LogOut/> : <LogIn/>}
-                {isLoggedIn ? "로그아웃" : "로그인"}
-            </Button>
+            <div>
+                {!!isLoggedIn && (
+                    <Button variant="ghost" className="cursor-pointer mr-1" onClick={isLoggedIn ? handleLogout : handleLogin}>
+                        {isLoggedIn ? <LogOut/> : <LogIn/>}
+                        {isLoggedIn ? "로그아웃" : "로그인"}
+                    </Button>
+                )}
+            </div>
         </header>
     )
 }

@@ -4,6 +4,31 @@ import {SidebarProvider} from "@/components/ui/sidebar";
 import AppSidebar from "@/views/shared/layout/app-sidebar";
 import {UserAuthProvider} from "@/views/shared/layout/user-auth-context";
 import UserHeader from "@/views/shared/layout/user-header";
+import {AppSidebarGroupProps} from "@/types/app-interface";
+import {SquareTerminal} from "lucide-react";
+
+const userSidebarList: AppSidebarGroupProps[] = [
+    {
+        name: "관리",
+        children: [
+            {
+                name: "대시보드",
+                icon: <SquareTerminal/>,
+                href: "/dashboard"
+            }
+        ]
+    },
+    {
+        name: "명령어",
+        children: [
+            {
+                name: "명령어",
+                icon: <SquareTerminal/>,
+                href: "/command"
+            }
+        ]
+    }
+]
 
 const UserLayout = ({
                         children,
@@ -13,7 +38,7 @@ const UserLayout = ({
     return (
         <UserAuthProvider>
             <SidebarProvider>
-                <AppSidebar/>
+                <AppSidebar sidebarList={userSidebarList}/>
                 <div className="flex flex-col flex-1">
                     <UserHeader/>
                     <div className="flex-1">

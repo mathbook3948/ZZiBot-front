@@ -12,12 +12,16 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import {SquareTerminal} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import SidebarFooterDropdown from "@/views/shared/layout/sidebar-footer-dropdown";
+import {AppSidebarGroupProps} from "@/types/app-interface";
 
-const AppSidebar = () => {
+interface Props {
+    sidebarList: AppSidebarGroupProps[]
+}
+
+const AppSidebar = ({sidebarList}: Props) => {
     return (
         <Sidebar className="border-sidebar-border">
             <SidebarHeader>
@@ -35,44 +39,23 @@ const AppSidebar = () => {
                 </Link>
             </SidebarHeader>
             <SidebarContent>
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>대시보드</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <a href="/dashboard">
-                                        <SquareTerminal/>
-                                        사용자 대시보드
-                                    </a>
-                                </SidebarMenuButton>
-                                <SidebarMenuButton asChild>
-                                    <a href="/admin/dashboard">
-                                        <SquareTerminal/>
-                                        관리자 대시보드
-                                    </a>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>명령어</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <a href="/command">
-                                        <SquareTerminal/>
-                                        명령어 목록
-                                    </a>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
+                {sidebarList.map((group, index1) => (
+                    <SidebarGroup key={`sidebar-group-${index1}`}>
+                        <SidebarGroupLabel>{group.name}</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                            <SidebarMenu>
+                                {group.children.map((menu, index2) => (
+                                    <SidebarMenuButton key={`sidebar-menu-${index2}`} asChild>
+                                        <a href={menu.href}>
+                                            {menu.icon}
+                                            {menu.name}
+                                        </a>
+                                    </SidebarMenuButton>
+                                ))}
+                            </SidebarMenu>
+                        </SidebarGroupContent>
+                    </SidebarGroup>
+                ))}
             </SidebarContent>
 
             <SidebarFooter>

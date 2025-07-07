@@ -5,7 +5,7 @@ import AppSidebar from "@/views/shared/layout/app-sidebar";
 import {UserAuthProvider} from "@/views/shared/layout/user-auth-context";
 import UserHeader from "@/views/shared/layout/user-header";
 import {AppSidebarGroupProps} from "@/types/app-interface";
-import {SquareTerminal} from "lucide-react";
+import {ChartNoAxesCombined, SquareTerminal} from "lucide-react";
 
 const userSidebarList: AppSidebarGroupProps[] = [
     {
@@ -25,6 +25,16 @@ const userSidebarList: AppSidebarGroupProps[] = [
                 name: "명령어",
                 icon: <SquareTerminal/>,
                 href: "/command"
+            }
+        ]
+    },
+    {
+        name: "모니터링",
+        children: [
+            {
+                name: "서비스 상태",
+                icon: <ChartNoAxesCombined/>,
+                href: "https://status.zzibot.com"
             }
         ]
     }

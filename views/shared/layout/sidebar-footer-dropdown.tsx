@@ -56,7 +56,7 @@ const SidebarFooterDropdown = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <SidebarMenuButton onClick={handleLogin} className="cursor-pointer">
+                <SidebarMenuButton onClick={handleLogin} className="cursor-pointer py-6">
                     {!!isLoggedIn && (
                         <>
                             {isLoggedIn ? (
@@ -67,15 +67,17 @@ const SidebarFooterDropdown = () => {
                                     </>
                                 ) : (
                                     <>
-                                        {data.discord_user_avatar ? (
-                                            <img
-                                                src={`https://cdn.discordapp.com/avatars/${data.discord_user_id}/${data.discord_user_avatar}.${data.discord_user_avatar.startsWith('a_') ? 'gif' : 'png'}?size=40`}
-                                                alt="avatar"
-                                                className="w-6 h-6 rounded-full mr-2"
-                                            />
-                                        ) : (
-                                            <User2 className="w-6 h-6 mr-2" />
-                                        )}
+                                        <div className="ml-0.5">
+                                            {data.discord_user_avatar ? (
+                                                <img
+                                                    src={`https://cdn.discordapp.com/avatars/${data.discord_user_id}/${data.discord_user_avatar}.${data.discord_user_avatar.startsWith('a_') ? 'gif' : 'png'}?size=40`}
+                                                    alt="avatar"
+                                                    className="w-6 h-6 rounded-full mr-1"
+                                                />
+                                            ) : (
+                                                <User2 className="w-6 h-6 mr-2" />
+                                            )}
+                                        </div>
                                         {data.discord_user_global_name}
                                     </>
                                 )

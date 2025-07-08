@@ -4,20 +4,20 @@ import {ActionReturnProps} from "@/types/response-interface";
 import currentUser from "@/utils/current-user";
 import {redirect} from "next/navigation";
 import handleRefreshToken from "@/utils/handle-refresh-token";
-import {DiscordGuildDetailProps, DiscordGuildProps} from "@/types/settings-interface";
+import {AlarmConfigProps} from "@/types/settings-interface";
 
 interface Props {
     guild_id: string
 }
 
-export const getUserGuildDetail = async ({guild_id}: Props): ActionReturnProps<DiscordGuildDetailProps> => {
+export const getUserAlarmConfigDetail = async ({guild_id}: Props): ActionReturnProps<AlarmConfigProps> => {
     const user = await currentUser()
 
     if (!user) {
         redirect('/login')
     }
 
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/user/discord/guild/${guild_id}`)
+    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/user/alarm/config/detail/${guild_id}`)
 
     let res = await fetch(url.toString(), {
         method: 'GET',

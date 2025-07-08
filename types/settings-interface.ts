@@ -33,3 +33,9 @@ export interface DiscordGuildChannelProps {
     permission_overwrites: {id: string, type: number, allow: string, deny: string}[]
     nsfw: boolean;
 }
+
+export interface AlarmConfigProps {
+    guild_id: string;
+    custom_message: string | null;
+    channel_id: string | null
+}

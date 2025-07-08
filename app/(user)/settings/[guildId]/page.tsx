@@ -17,7 +17,12 @@ const UserSettingsFormPage = async ({params}: Props) => {
     const guildRes = await getUserGuildDetail({guild_id: guildId})
     const configRes = await getUserAlarmConfigDetail({guild_id: guildId})
 
-    return <UserSettingsForm channelContent={channelRes.data} guildContent={guildRes.data} configContent={configRes.data}/>
+    return (
+        <UserSettingsForm channelContent={channelRes.data}
+                          guildContent={guildRes.data}
+                          configContent={configRes.data}
+        />
+    )
 }
 
 export default UserSettingsFormPage

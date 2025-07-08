@@ -2,9 +2,15 @@
 
 import {ResponseProps} from "@/types/response-interface";
 import {AlarmConfigProps, DiscordGuildChannelProps, DiscordGuildDetailProps} from "@/types/settings-interface";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import handleError from "@/utils/handle-error";
 import {useRouter} from "next/navigation";
+import CommonSelect, {SelectNode} from "@/views/shared/common-select";
+import {Textarea} from "@/components/ui/textarea";
+import {Label} from "@/components/ui/label";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {Button} from "@/components/ui/button";
+import {MoveLeft} from "lucide-react";
 
 interface Props {
     channelContent: ResponseProps<DiscordGuildChannelProps[]>
@@ -14,23 +20,82 @@ interface Props {
 
 const UserSettingsForm = ({channelContent, guildContent, configContent}: Props) => {
     const router = useRouter()
-
-    console.log("channelContent", channelContent)
-    console.log("guildContent", guildContent)
-    console.log("configContent", configContent)
+    const [selectedChannelId, setSelectedChannelId] = useState('')
+    const [customMessage, setCustomMessage] = useState('')
 
     useEffect(() => {
-        if (!channelContent.result || !guildContent.result || !configContent.result) {
-            handleError(guildContent.msg ? guildContent : channelContent.msg ? guildContent : configContent)
+        if (![channelContent, guildContent, configContent].every(c => c.result)) {
+            handleError([guildContent, channelContent, configContent].find(c => !c.result && c.msg) || configContent)
             router.push('/settings')
         }
     }, [channelContent, configContent, guildContent, router]);
 
+    useEffect(() => {
+        setSelectedChannelId(configContent.content?.channel_id ?? "")
+    }, [configContent]);
+
+    useEffect(() => {
+        setCustomMessage(configContent.content?.custom_message ?? "")
+    }, [configContent]);
+
+    const dataList: SelectNode[] = (channelContent.content ?? [])
+        .map(channel => ({
+            value: channel.id,
+            label: channel.name,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, 'ko'));
+
     return (
-        <div className="w-full max-w-3xl mx-auto p-6 flex flex-col gap-4">
-            <div>
-                <span
-                    className="text-4xl font-bold text-primary">{guildContent.content?.discord_user_guild_name} 채널 설정</span>
+        <div className="w-full max-w-3xl mx-auto p-6 space-y-6">
+            <div className="flex justify-start items-center">
+                <Button variant="ghost" size="sm" onClick={() => router.push('/settings')} className="hover:!bg-transparent pl-0 cursor-pointer">
+                    <div className="flex flex-row items-center gap-1">
+                        <MoveLeft />
+                        <span>돌아가기</span>
+                    </div>
+                </Button>
+            </div>
+            <div className="flex flex-col gap-2">
+                <h2 className="text-3xl font-bold text-primary">
+                    {guildContent.content?.discord_user_guild_name} 채널 설정
+                </h2>
+                <Tabs defaultValue="settings" className="w-full">
+                    <TabsList className="w-fit">
+                        <TabsTrigger value="latest">최근 알림</TabsTrigger>
+                        <TabsTrigger value="settings">설정</TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="latest">
+                        <div className="p-4 border rounded-xl bg-muted/50 text-sm text-muted-foreground">
+                            test
+                        </div>
+                    </TabsContent>
+
+                    <TabsContent value="settings">
+                        <div className="mt-4 p-6 border rounded-2xl bg-muted/40 space-y-6">
+                            <div>
+                                <Label className="mb-2 block text-base font-medium text-muted-foreground">알림 발송
+                                    채널</Label>
+                                <CommonSelect options={dataList} value={selectedChannelId}
+                                              onChange={setSelectedChannelId}/>
+                            </div>
+
+                            <div>
+                                <Label className="mb-2 block text-base font-medium text-muted-foreground">추가 메시지</Label>
+                                <Textarea
+                                    value={customMessage}
+                                    onChange={e => setCustomMessage(e.target.value)}
+                                    placeholder="@everyone 같은 멘션이나 일반 텍스트를 입력할 수 있습니다."
+                                    className="w-full min-h-[200px] max-h-[400px] resize-y rounded-2xl border border-muted bg-muted/50 p-4 text-sm"
+                                />
+                            </div>
+
+                            <div className="flex justify-end">
+                                <Button variant="default">저장</Button>
+                            </div>
+                        </div>
+                    </TabsContent>
+                </Tabs>
             </div>
         </div>
     )

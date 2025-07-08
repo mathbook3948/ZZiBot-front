@@ -2,7 +2,7 @@
 
 import {ResponseProps} from "@/types/response-interface";
 import {AlarmConfigProps, DiscordGuildChannelProps, DiscordGuildDetailProps} from "@/types/settings-interface";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useTransition} from "react";
 import handleError from "@/utils/handle-error";
 import {useRouter} from "next/navigation";
 import CommonSelect, {SelectNode} from "@/views/shared/common-select";
@@ -11,17 +11,21 @@ import {Label} from "@/components/ui/label";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Button} from "@/components/ui/button";
 import {MoveLeft} from "lucide-react";
+import {modifyUserAlarmConfig} from "@/actions/user/modify-user-alarm-config";
+import {toast} from "sonner";
 
 interface Props {
     channelContent: ResponseProps<DiscordGuildChannelProps[]>
     guildContent: ResponseProps<DiscordGuildDetailProps>
     configContent: ResponseProps<AlarmConfigProps>
+    guildId: string
 }
 
-const UserSettingsForm = ({channelContent, guildContent, configContent}: Props) => {
+const UserSettingsForm = ({channelContent, guildContent, configContent, guildId}: Props) => {
     const router = useRouter()
     const [selectedChannelId, setSelectedChannelId] = useState('')
     const [customMessage, setCustomMessage] = useState('')
+    const [isPending, startTransition] = useTransition()
 
     useEffect(() => {
         if (![channelContent, guildContent, configContent].every(c => c.result)) {
@@ -38,6 +42,23 @@ const UserSettingsForm = ({channelContent, guildContent, configContent}: Props) 
         setCustomMessage(configContent.content?.custom_message ?? "")
     }, [configContent]);
 
+    const handleSubmit = () => {
+        startTransition(async () => {
+            const res = await modifyUserAlarmConfig({
+                channel_id: selectedChannelId,
+                guild_id: guildId,
+                custom_message: customMessage
+            })
+
+            if (!res.success) {
+                handleError(res.data)
+                return
+            }
+
+            toast.success("저장에 성공했습니다.")
+        })
+    }
+
     const dataList: SelectNode[] = (channelContent.content ?? [])
         .map(channel => ({
             value: channel.id,
@@ -48,9 +69,10 @@ const UserSettingsForm = ({channelContent, guildContent, configContent}: Props) 
     return (
         <div className="w-full max-w-3xl mx-auto p-6 space-y-6">
             <div className="flex justify-start items-center">
-                <Button variant="ghost" size="sm" onClick={() => router.push('/settings')} className="hover:!bg-transparent pl-0 cursor-pointer">
+                <Button variant="ghost" size="sm" onClick={() => router.push('/settings')}
+                        className="hover:!bg-transparent pl-0 cursor-pointer">
                     <div className="flex flex-row items-center gap-1">
-                        <MoveLeft />
+                        <MoveLeft/>
                         <span>돌아가기</span>
                     </div>
                 </Button>
@@ -91,7 +113,7 @@ const UserSettingsForm = ({channelContent, guildContent, configContent}: Props) 
                             </div>
 
                             <div className="flex justify-end">
-                                <Button variant="default">저장</Button>
+                                <Button variant="default" onClick={handleSubmit}>저장</Button>
                             </div>
                         </div>
                     </TabsContent>

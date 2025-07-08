@@ -21,6 +21,7 @@ const UserSettingsFormPage = async ({params}: Props) => {
         <UserSettingsForm channelContent={channelRes.data}
                           guildContent={guildRes.data}
                           configContent={configRes.data}
+                          guildId={guildId}
         />
     )
 }

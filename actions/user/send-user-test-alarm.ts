@@ -4,25 +4,28 @@ import {ActionReturnProps} from "@/types/response-interface";
 import currentUser from "@/utils/current-user";
 import {redirect} from "next/navigation";
 import handleRefreshToken from "@/utils/handle-refresh-token";
-import {DiscordGuildProps} from "@/types/settings-interface";
 
-export const getUserGuildList = async (): ActionReturnProps<DiscordGuildProps[]> => {
+interface Props {
+    guild_id: string
+}
+
+export const sendTestAlarm = async (form: Props): ActionReturnProps<null> => {
     const user = await currentUser()
 
     if (!user) {
         redirect('/login')
     }
 
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/user/discord/guild/list`)
+    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/user/alarm/config/test`)
 
     let res = await fetch(url.toString(), {
-        method: 'GET',
+        method: 'POST',
         headers: {
             accept: '*/*',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${user.accessToken}`
         },
-        cache: 'force-cache',
-        next: {revalidate: 60}
+        body: JSON.stringify(form)
     })
 
     if (res.status === 401) {
@@ -33,13 +36,13 @@ export const getUserGuildList = async (): ActionReturnProps<DiscordGuildProps[]>
         }
 
         res = await fetch(url.toString(), {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 accept: '*/*',
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${refreshRes.data.content!.accessToken}`
             },
-            cache: 'force-cache',
-            next: {revalidate: 60}
+            body: JSON.stringify(form)
         })
     }
 

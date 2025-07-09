@@ -13,6 +13,7 @@ import {Button} from "@/components/ui/button";
 import {MoveLeft} from "lucide-react";
 import {modifyUserAlarmConfig} from "@/actions/user/modify-user-alarm-config";
 import {toast} from "sonner";
+import {sendTestAlarm} from "@/actions/user/send-user-test-alarm";
 
 interface Props {
     channelContent: ResponseProps<DiscordGuildChannelProps[]>
@@ -56,6 +57,18 @@ const UserSettingsForm = ({channelContent, guildContent, configContent, guildId}
             }
 
             toast.success("저장에 성공했습니다.")
+        })
+    }
+
+    const handleAlarmTest = () => {
+        sendTestAlarm({guild_id: guildId}).then(res => {
+            console.log("res", res)
+            if(!res.success) {
+                handleError(res.data)
+                return
+            }
+
+            toast.success("테스트 알림을 발송하였습니다.")
         })
     }
 
@@ -108,11 +121,12 @@ const UserSettingsForm = ({channelContent, guildContent, configContent, guildId}
                                     value={customMessage}
                                     onChange={e => setCustomMessage(e.target.value)}
                                     placeholder="@everyone 같은 멘션이나 일반 텍스트를 입력할 수 있습니다."
-                                    className="w-full min-h-[200px] max-h-[400px] resize-y rounded-2xl border border-muted bg-muted/50 p-4 text-sm"
+                                    className="w-full min-h-[200px] max-h-[400px] resize-none rounded-2xl border border-muted bg-muted/50 p-4 text-sm"
                                 />
                             </div>
 
-                            <div className="flex justify-end">
+                            <div className="flex flex row gap-2 justify-end">
+                                <Button variant="secondary" onClick={handleAlarmTest}>알림 테스트</Button>
                                 <Button variant="default" onClick={handleSubmit}>저장</Button>
                             </div>
                         </div>

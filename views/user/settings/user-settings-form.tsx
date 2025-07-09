@@ -61,8 +61,9 @@ const UserSettingsForm = ({channelContent, guildContent, configContent, guildId}
     }
 
     const handleAlarmTest = () => {
-        sendTestAlarm({guild_id: guildId}).then(res => {
-            console.log("res", res)
+        startTransition(async () => {
+            const res = await sendTestAlarm({guild_id: guildId})
+
             if(!res.success) {
                 handleError(res.data)
                 return
@@ -126,8 +127,8 @@ const UserSettingsForm = ({channelContent, guildContent, configContent, guildId}
                             </div>
 
                             <div className="flex flex row gap-2 justify-end">
-                                <Button variant="secondary" onClick={handleAlarmTest}>알림 테스트</Button>
-                                <Button variant="default" onClick={handleSubmit}>저장</Button>
+                                <Button variant="secondary" onClick={handleAlarmTest} disabled={isPending}>알림 테스트</Button>
+                                <Button variant="default" onClick={handleSubmit} disabled={isPending}>저장</Button>
                             </div>
                         </div>
                     </TabsContent>

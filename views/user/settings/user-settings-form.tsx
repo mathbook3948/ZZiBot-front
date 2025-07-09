@@ -95,7 +95,30 @@ const UserSettingsForm = ({channelContent, guildContent, configContent, guildId}
                 <h2 className="text-3xl font-bold text-primary">
                     {guildContent.content?.discord_user_guild_name} 채널 설정
                 </h2>
-                <Tabs defaultValue="settings" className="w-full">
+                <div className="mt-4 p-6 border rounded-2xl bg-muted/40 space-y-6">
+                    <div>
+                        <Label className="mb-2 block text-base font-medium text-muted-foreground">알림 발송
+                            채널</Label>
+                        <CommonSelect options={dataList} value={selectedChannelId}
+                                      onChange={setSelectedChannelId}/>
+                    </div>
+
+                    <div>
+                        <Label className="mb-2 block text-base font-medium text-muted-foreground">추가 메시지</Label>
+                        <Textarea
+                            value={customMessage}
+                            onChange={e => setCustomMessage(e.target.value)}
+                            placeholder="@everyone 같은 멘션이나 일반 텍스트를 입력할 수 있습니다."
+                            className="w-full min-h-[200px] max-h-[400px] resize-none rounded-2xl border border-muted bg-muted/50 p-4 text-sm"
+                        />
+                    </div>
+
+                    <div className="flex flex row gap-2 justify-end">
+                        <Button variant="secondary" onClick={handleAlarmTest} disabled={isPending}>알림 테스트</Button>
+                        <Button variant="default" onClick={handleSubmit} disabled={isPending}>저장</Button>
+                    </div>
+                </div>
+                {/*<Tabs defaultValue="settings" className="w-full">
                     <TabsList className="w-fit">
                         <TabsTrigger value="latest">최근 알림</TabsTrigger>
                         <TabsTrigger value="settings">설정</TabsTrigger>
@@ -127,12 +150,13 @@ const UserSettingsForm = ({channelContent, guildContent, configContent, guildId}
                             </div>
 
                             <div className="flex flex row gap-2 justify-end">
-                                <Button variant="secondary" onClick={handleAlarmTest} disabled={isPending}>알림 테스트</Button>
+                                <Button variant="secondary" onClick={handleAlarmTest} disabled={isPending}>알림
+                                    테스트</Button>
                                 <Button variant="default" onClick={handleSubmit} disabled={isPending}>저장</Button>
                             </div>
                         </div>
                     </TabsContent>
-                </Tabs>
+                </Tabs>*/}
             </div>
         </div>
     )

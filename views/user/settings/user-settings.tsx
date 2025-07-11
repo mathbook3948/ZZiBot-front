@@ -41,7 +41,7 @@ const UserSettings = ({content}: Props) => {
             <div>
                 <span className="text-4xl font-bold text-primary">치봇 설정</span>
                 <div className="text-base sm:text-md text-muted-foreground mt-2">
-                    &#39;{discordUser?.discord_user_global_name}&#39;님이 생성하고, 치봇이 참여중인 서버만 표시됩니다.
+                    &#39;{discordUser?.discord_user_global_name}&#39;님이 관리자 권한이 존재하고, 치봇이 참여중인 서버만 표시됩니다.
                 </div>
             </div>
 

@@ -35,6 +35,16 @@ const commands: CommandGroup[] = [
                 requiredAdmin: true
             }
         ]
+    },
+    {
+        name: "정보 조회",
+        commands: [
+            {
+                command: '/라이브순위',
+                description: '라이브 중인 채널을 시청자 수 기준으로 보여줍니다.',
+                requiredAdmin: false
+            }
+        ]
     }
 ]
 
@@ -71,9 +81,11 @@ const UserCommand = () => {
 const CommandList = ({commands}: { commands: CommandGroup[] }) => {
     return (
         <div className="space-y-6">
-            {commands.map((command, index) => (
-                <UserCommandItem cmd={command} key={`user-command-item-${index}`}/>
-            ))}
+            {commands.map((command, index) => {
+                if(command.commands.length === 0) return null;
+
+                return <UserCommandItem cmd={command} key={`user-command-item-${index}`}/>
+            })}
         </div>
     )
 }

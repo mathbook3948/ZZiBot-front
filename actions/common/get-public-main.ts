@@ -10,7 +10,8 @@ export const getPublicMain = async (): ActionReturnProps<MainContentProps> => {
         method: 'GET',
         headers: {
             accept: '*/*'
-        }
+        },
+        cache: 'no-cache'
     })
 
     console.log('getPublicMain', res.status)
